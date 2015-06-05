@@ -1,22 +1,25 @@
 ﻿
-CREATE DATABASE [KUAS]
+CREATE DATABASE [Member]
 GO
 
-USE [KUAS]
+USE [Member]
 GO
 
-CREATE TABLE [dbo].[Employee](
-	[id]   [nvarchar](50) NOT NULL,
-	[name] [nvarchar](255) NOT NULL,
-	[age]  [int] NULL,
- CONSTRAINT [PK_Employees] PRIMARY KEY CLUSTERED 
+CREATE TABLE [dbo].[Member](
+	[id]   [int] Not NULL,
+	[name] [varchar](255) NOT NULL,
+	[email][varchar](255) NOT NULL,
+	[age][int] Not NULL,
+	[sex][varchar](5) Not NULL,
+	[account]  [varchar](50) NOT NULL,
+	[password]  [varchar](50) NOT NULL,
+ CONSTRAINT [PK_Member] PRIMARY KEY CLUSTERED 
 (
 	[id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
 
-INSERT [dbo].[Employee] ([id], [name], [age]) VALUES (N'dennis_yen'  , N'嚴志和', 35);
-INSERT [dbo].[Employee] ([id], [name], [age]) VALUES (N'james_ch_lee', N'李建祥', 40);
-INSERT [dbo].[Employee] ([id], [name], [age]) VALUES (N'sean_huang'  , N'黃以新', 28);
+INSERT [dbo].[Member] ([id], [name], [email],[age],[sex],[account],[password]) VALUES (1,'陳豪震','haozhen1106@gmail.com',21,'男','manager','manager');
+
 GO
