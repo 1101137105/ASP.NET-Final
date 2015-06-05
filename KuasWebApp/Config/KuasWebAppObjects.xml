@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<objects xmlns="http://www.springframework.net">
+  
+  <object id="memberController" scope="request" singleton="false" type="KuasWebApp.Controllers.MemberController, KuasWebApp">
+    <property name="MemberService" ref="memberService" />
+  </object>
+
+  <object id="memberService" type="KuasCore.Services.Impl.MemberService, KuasCore">
+    <property name="MemberDao" ref="memberDao" />
+  </object>
+
+  <object id="memberDao" type="KuasCore.Dao.Impl.MemberDao, KuasCore">
+    <property name="AdoTemplate" ref="adoTemplate" />
+  </object>
+  
+
+</objects>
