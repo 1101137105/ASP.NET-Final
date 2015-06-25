@@ -24,7 +24,7 @@ namespace KuasCore.Dao.Impl
             string command = @"INSERT INTO Member ( name, email,age,sex,account,password) VALUES ( @name,@email,@age, @sex,@account,@password);";
 
             IDbParameters parameters = CreateDbParameters();
-       
+
             parameters.Add("name", DbType.String).Value = member.name;
             parameters.Add("email", DbType.String).Value = member.email;
             parameters.Add("age", DbType.Int32).Value = member.age;
@@ -47,7 +47,7 @@ namespace KuasCore.Dao.Impl
             parameters.Add("sex", DbType.String).Value = member.sex;
             parameters.Add("account", DbType.String).Value = member.account;
             parameters.Add("password", DbType.String).Value = member.password;
-
+            
             ExecuteNonQuery(command, parameters);
         }
 

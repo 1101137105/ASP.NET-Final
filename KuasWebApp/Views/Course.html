@@ -2,16 +2,29 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title>Course</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.common-material.min.css" />
-    <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
+    <link id="theme" rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.material.min.css" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.min.css" />
     <link rel="stylesheet" href="http://cdn.kendostatic.com/2015.1.429/styles/kendo.dataviz.material.min.css" />
 
     <script src="http://cdn.kendostatic.com/2015.1.429/js/jquery.min.js"></script>
     <script src="http://cdn.kendostatic.com/2015.1.429/js/kendo.all.min.js"></script>
+    <style>
+
+    </style>
 </head>
 <body>
+
+    <ul id="menu">
+        <li onclick="changetheme('material')">Default</li>
+        <li onclick="changetheme('black')">Black</li>
+        <li onclick="changetheme('blueopal')">Blue</li>
+        <li onclick="changetheme('moonlight')">Moonlight</li>
+        <li onclick="changetheme('highcontrast')">Purple</li>
+    </ul>
+    <div id="popupNotification"></div>
+    <div id="staticNotification"></div>
     <div class="content-pane">
         <div id="grid"></div>
     </div>
@@ -24,7 +37,7 @@
                     dataType: "jsonp",
                     transport: {
                         read: {
-                            url: UrlBase+"api/Member",
+                            url: UrlBase + "api/Member",
                             contentType: "application/json; charset=utf-8",
                             type: "GET"
                         },
@@ -53,42 +66,86 @@
                         model: {
                             id: "id",
                             fields: {
-                                id  : { type: "int", editable: true, nullable: false },
+                                id: { type: "int", editable: true, nullable: false },
                                 name: { type: "string", editable: true, nullable: false },
                                 email: { type: "string", editable: true },
-                                age : { type: "int", editable: true },
-                                sex : { type: "string", editable: true },
-                                account : { type: "string", editable: true },
-                                password : { type: "string", editable: true },
+
+                                age: { type: "number", validation: { min: 0, required: true } },
+
+                                sex: { type: "string", editable: true },
+                                account: { type: "string", editable: true },
+                                password: { type: "string", editable: true },
                             }
                         }
                     }
 
                 },
-                height: 550,
+                height: 500,
+
+                selectable: "multiple cell",
                 sortable: true,
+                groupable: true,
                 scrollable: true,
+                change: onChange,
                 sortable: true,
                 filterable: true,
-                editable: "inline",
+                batch: true,
                 toolbar: ["create"],
                 pageable: {
                     input: true,
                     numeric: false
                 },
                 columns: [
-                    { field: "id"  , title: "會員編號" , width: "150px" },
+
                     { field: "name", title: "會員姓名", width: "150px" },
-                    { field: "email", title: "信箱", width: "100px" },
+                    { field: "email", title: "信箱", width: "200px" },
                     { field: "age", title: "年齡", width: "100px" },
-                    { field: "sex", title: "性別", width: "100px" },
+                    { field: "sex", title: "性別", width: "100px", editor: categoryDropDownEditor },
                     { field: "account", title: "帳號", width: "100px" },
                     { field: "password", title: "密碼", width: "100px" },
-                    { command: ["edit", "destroy"], title: "Command", width: "250px" }
-                ]
+                    { command: ["edit", "destroy"], title: "Command", width: "200px" },
+
+                ],
+                editable: "popup"
             });
+            function categoryDropDownEditor(container, options) {
+                $('<input required data-text-field="sexType" data-value-field="sexType" data-bind="value:' + options.field + '"/>')
+                    .appendTo(container)
+                    .kendoDropDownList({
+                        autoBind: false,
+                        dataSource: [
+      { sexType: "boy", sexId: 1 },
+      { sexType: "girl", sexId: 2 }
+                        ]
+                    });
+            }
 
         });
+
+
+        $(document).ready(function () {
+            $("#menu").kendoMenu();
+        })
+        function changetheme(themeType) {
+            $("#theme").attr("href", "http://cdn.kendostatic.com/2015.1.429/styles/kendo." + themeType + ".min.css");;
+        }
+        function onChange(arg) {
+         
+            var selected = $.map(this.select(), function (item) {
+                return $(item).text();
+            });
+   
+            var popupNotification = $("#popupNotification").kendoNotification().data("kendoNotification");
+            var staticNotification = $("#staticNotification").kendoNotification({
+                appendTo: "#appendto"
+            }).data("kendoNotification");
+
+
+            popupNotification.show(kendo.toString("Selected: " + selected.length + " item(s), [" + selected.join(", ") + "]"), "error");
+
+           
+        }
     </script>
+
 </body>
 </html>
